@@ -1,0 +1,42 @@
+version: '2.2'
+services:
+  # nginx:
+  #   build: 
+  #     context: .
+  #     dockerfile: 
+  #   container_name: 'splunk-nginx'
+  #   restart: unless-stopped
+  #   networks: 
+  #     - default
+  #     - splunk-backend
+  #   ports:
+  #     - 8000:80
+  #     - 8443:443
+  #     - 8091:8091
+  splunk:
+    image: splunk/splunk:8.0-debian
+    restart: unless-stopped
+    container_name: splunk
+    networks:
+      - default
+      - splunk-backend
+    ports:
+      - 8000:8000/tcp
+      - 8090:8090/tcp
+      - 8091:8091/tcp
+    environment:
+      - SPLUNK_START_ARGS=--accept-license
+      - SPLUNK_PASSWORD=changeme
+    volumes: 
+      - splunk-var:/opt/splunk/var
+      - splunk-etc:/opt/splunk/etc
+    cpus: 2
+    mem_limit: 1G
+
+volumes: 
+  splunk-var:
+  splunk-etc:
+
+networks: 
+  splunk-backend:
+
