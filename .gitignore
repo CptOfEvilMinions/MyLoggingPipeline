@@ -1,0 +1,4 @@
+conf/nginx/ssl/*
+conf/logstash/ssl/*
+venv/
+conf/python/config.yml

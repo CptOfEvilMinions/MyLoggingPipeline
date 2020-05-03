@@ -1,4 +1,5 @@
-FROM confluentinc/cp-kafka-connect:5.5.0
+ARG CONFLUENT_VERSION
+FROM confluentinc/cp-kafka-connect:${CONFLUENT_VERSION}
 
 # Install Kafka connector for Splunk
 RUN confluent-hub install --no-prompt splunk/kafka-connect-splunk:1.2.0
