@@ -47,8 +47,8 @@ services:
     depends_on: 
       - splunk
       - broker
-    #cpus: 4
-    #mem_limit:2G
+    cpus: 4
+    mem_limit: 2G
 
   ############################################## Zookeeper ##############################################
   zookeeper:

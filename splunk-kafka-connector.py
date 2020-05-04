@@ -25,7 +25,7 @@ class App:
         # Splunk index and connectors
         self.splunk_index_name = config['splunk']['index_name']
         self.splunk_connector_name = config['splunk']['index_name'] + "-" + config['splunk']['hec_base_name']
-        self.splunk_hec_token = str()
+        self.splunk_hec_token = None
 
         # Kafka
         self.kafka_connect_url = config['kafka']['connect_extenral_url']
@@ -46,6 +46,18 @@ class App:
         )
 
 
+    def list_kafka_splunk_connectors(self):
+        headers = {
+            "Content-Type": "application/json"
+        }
+        r = requests.get(self.kafka_connect_url, headers=headers, verify=self.verify)
+
+        if r.status_code == 200:
+            print (r.json())
+        else:
+            print ( f"[-] - {datetime.now()} - Unable to get list of Kafka connectors" )
+            print (r.text)
+
     def delete_kafka_splunk_connector(self, splunk_connector_name):
         headers = {
             "Content-Type": "application/json"
@@ -55,7 +67,7 @@ class App:
         r = requests.delete(kafka_connect_delete_url, headers=headers, verify=self.verify)
 
         print (r.status_code)
-        if r.status_code == 201:
+        if r.status_code == 204:
             print ( f"[+] - {datetime.now()} - Deleted connector between Splunk and Kafka for {splunk_connector_name}" )
         else:
             print ( f"[-] - {datetime.now()} - DID NOT DELETE connector between Splunk and Kafka for {splunk_connector_name}" )
@@ -81,9 +93,8 @@ class App:
                 "splunk.hec.ssl.validate.certs": f"{str(self.verify).lower()}"
             }
         }
-        r = requests.post(self.kafka_connect_url, headers=headers, data=json.dumps(json_data), verify=self.verify)
 
-        print (r.status_code)
+        r = requests.post(self.kafka_connect_url, headers=headers, data=json.dumps(json_data), verify=self.verify)
 
         if r.status_code == 201:
             print ( f"[+] - {datetime.now()} - Instantiated connector between Splunk and Kafka for {self.kafak_topics_list}" )
@@ -128,7 +139,8 @@ class App:
 
             data = {
                 "name": "Kafka-splunk-connector",
-                "index": f"{self.splunk_index_name}"
+                "index": f"{self.splunk_index_name}",
+                "useACK": 1
             }
 
             params = (('output_mode', 'json'),)
@@ -189,7 +201,8 @@ if __name__ == "__main__":
     my_parser.add_argument('--create_splunk_hec_token', action='store', type=str, help='Create splunk index')
     my_parser.add_argument('--create_kafka_splunk_connector', action='store', type=str, help='Create splunk index')
     my_parser.add_argument('--delete_kafka_splunk_connector', action='store', type=str, help='Create splunk index')
-    my_parser.add_argument('--all', action='store', type=str, help='')
+    my_parser.add_argument('--list_kafka_splunk_connectors', action='store_true', help='List Kafka Connectors')
+    my_parser.add_argument('--all', action='store_true', help='Create Splunk index, Create Splunk HEC token, Create Kafka Splunk connector')
     args = my_parser.parse_args()
 
 
@@ -212,6 +225,10 @@ if __name__ == "__main__":
     # Create Kafka Splunk connector
     if args.create_kafka_splunk_connector:
         app.create_kafka_splunk_connector()
+
+    # List of Kafka connectors
+    if args.list_kafka_splunk_connectors:
+         app.list_kafka_splunk_connectors()
 
     # Delete Kafka Splunk connector
     if args.delete_kafka_splunk_connector:

@@ -1,15 +1,14 @@
 splunk:
-  external_url: https://<IP addr of Docker>:8089         # External acccessible URL for Splunk API
-  docker_hec_url: https://splunk:8088                    # Docker network acccessible URL for Splunk HEC event collectors
-  username: admin                                        # Splunk username
-  password: changeme                                     # Splunk password
-  hec_base_name: kafka-splunk-connector                  # Splunk HEC event collector name
-  index_name: <index name>                               # Index to creaete for logs
+  external_url: https://<IP addr of Docker>:8089                      # External acccessible URL for Splunk API
+  docker_hec_url: https://splunk:8088                                 # Docker network acccessible URL for Splunk HEC event collectors
+  username: admin                                                     # Splunk username
+  password: changeme                                                  # Splunk password
+  hec_base_name: kafka-splunk-connector                               # Splunk HEC event collector name
+  index_name: <index name>                                            # Index to creaete for logs
 
 kafka:
-  connect_external_hostname: splunk.hackinglab.local     # External IP/FQDN port for Kafka Connect
-  connect_external_port: 8083                            # Externally exposed port for Kafka Connect API
-  topics: ['t1','t2','t3']                               # List of topics to be ingested into the index specifed above
+  connect_extenral_url: https://<IP addr of Docker>:8083/connectors
+  topics: ['t1','t2','t3']                                            # List of topics to be ingested into the index specifed above
 
 ssl:
-  verify: False                                          # Whether to enable SSL certification verification
+  verify: False                                                       # Whether to enable SSL certification verification

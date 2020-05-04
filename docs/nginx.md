@@ -9,3 +9,9 @@ Logstash is the frontend to the logging for ingest logs from client. Logstash wa
 
 ## References
 * [plentz/nginx.conf](https://gist.github.com/plentz/6737338)
+* [nginx as reverse proxy with upstream SSL](https://serverfault.com/questions/341023/nginx-as-reverse-proxy-with-upstream-ssl)
+* []()
+* []()
+* []()
+* []()
+* []()
