@@ -1,5 +1,10 @@
 # Logging pipeline
 
+## Network diagram
+<p align="center">
+  <img src=".img/network_diagram.png">
+</p>
+
 ## .env
 The Docker images are pinned to the following version below. If you want a different version please update `.env`
 ```
