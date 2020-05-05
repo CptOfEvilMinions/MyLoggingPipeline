@@ -23,11 +23,13 @@ services:
       - kafka-backend
     depends_on: 
       - splunk
-      #- connect
-      #- control-center
+      - connect
+      - control-center
       #- rest-proxy
       #- connect
       #- ksqldb-server
+    cpus: 1
+    mem_limit: 100M
 
   ############################################## Logstash ##############################################
   logstash:
@@ -66,8 +68,8 @@ services:
     volumes: 
       - zk-data:/var/lib/zookeeper/data
       - zk-logs:/var/lib/zookeeper/log
-    #cpus: 1
-    #mem_limit:150M 
+    cpus: 1
+    mem_limit: 150M 
 
   ############################################## Kafka ##############################################
   broker:
@@ -97,7 +99,7 @@ services:
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
       KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
-       # Only log errors to output
+      # Only log errors to output
       KAFKA_LOG4J_ROOT_LOGLEVEL: ${ROOT_LOGLEVEL}
       # Enable log cleaner
       KAFKA_LOG_CLEANER_ENABLE: 'true'
@@ -105,8 +107,8 @@ services:
       KAFKA_LOG_RETENTION_HOURS: 72
       # Keep up to 100 gigabytes of logs
       KAFKA_LOG_RETENTION_BYTES: 100000000000
-    #cpus: 4
-    #mem_limit:2G 
+    cpus: 4
+    mem_limit: 2G 
     
   ############################################## Schema registry ##############################################
   schema-registry:
@@ -122,8 +124,9 @@ services:
     environment:
       SCHEMA_REGISTRY_HOST_NAME: schema-registry
       SCHEMA_REGISTRY_KAFKASTORE_CONNECTION_URL: 'zookeeper:2181'
-    #cpus: 1
-    #mem_limit:300M 
+      SCHEMA_REGISTRY_LOG4J_ROOT_LOGLEVEL: ${ROOT_LOGLEVEL}
+    cpus: 1
+    mem_limit: 500M 
 
   ############################################## Connect ##############################################
   connect:
@@ -162,8 +165,9 @@ services:
       CONNECT_ZOOKEEPER_CONNECT: 'zookeeper:2181'
       CONNECT_PLUGIN_PATH: "/usr/share/java,/usr/share/confluent-hub-components"
       CONNECT_LOG4J_LOGGERS: org.apache.zookeeper=ERROR,org.I0Itec.zkclient=ERROR,org.reflections=ERROR
-    #cpus: 2
-    #mem_limit:2G 
+      CONNECT_LOG4J_ROOT_LOGLEVEL: ${ROOT_LOGLEVEL}
+    cpus: 2
+    mem_limit: 2500M 
 
   ############################################## Kafka Control center ##############################################
   control-center:
@@ -192,8 +196,8 @@ services:
       CONFLUENT_METRICS_TOPIC_REPLICATION: 1
       CONTROL_CENTER_LOG4J_ROOT_LOGLEVEL: ${ROOT_LOGLEVEL}
       PORT: 9021
-    #cpus: 1
-    #mem_limit:500M
+    cpus: 1
+    mem_limit: 1G
 
   ############################################## KsqlDB ##############################################
   ksqldb-server:
@@ -220,8 +224,8 @@ services:
       KSQL_CONSUMER_INTERCEPTOR_CLASSES: "io.confluent.monitoring.clients.interceptor.MonitoringConsumerInterceptor"
       KSQL_KSQL_CONNECT_URL: "http://connect:8083"
       KSQL_LOG4J_ROOT_LOGLEVEL: ${ROOT_LOGLEVEL}
-    #cpus: 1
-    #mem_limit:500M 
+    cpus: 1
+    mem_limit: 500M 
 
   ############################################## KsqlDB client ##############################################
   ksqldb-cli:
@@ -237,8 +241,8 @@ services:
       - ksqldb-server
     entrypoint: /bin/sh
     tty: true
-    #cpus: 1
-    #mem_limit:100M
+    cpus: 1
+    mem_limit: 100M
 
   ############################################## Kafka Rest proxy ##############################################
   rest-proxy:
@@ -260,8 +264,8 @@ services:
       KAFKA_REST_BOOTSTRAP_SERVERS: 'broker:29092'
       KAFKA_REST_LISTENERS: "http://0.0.0.0:8082"
       KAFKA_REST_SCHEMA_REGISTRY_URL: 'http://schema-registry:8081'
-    #cpus: 2
-    #mem_limit:500M 
+    cpus: 2
+    mem_limit: 300M 
 
   ############################################## Splunk ##############################################
   splunk:
@@ -275,13 +279,13 @@ services:
     networks:
       - splunk-backend
     environment:
-      - SPLUNK_START_ARGS=--accept-license 
-      - SPLUNK_PASSWORD=changeme
+      - SPLUNK_START_ARGS="--accept-license"
+      - SPLUNK_PASSWORD=Changeme123!
     volumes: 
       - splunk-var:/opt/splunk/var
       - splunk-etc:/opt/splunk/etc
-    #cpus: 2
-    #mem_limit:1G
+    cpus: 8
+    mem_limit: 12G
 
 volumes: 
   kafka-data:

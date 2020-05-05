@@ -1,0 +1,3 @@
+- paths:
+    - '/var/log/suricata/eve.json'
+  tags: ["suricata"]
