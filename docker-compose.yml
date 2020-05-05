@@ -135,6 +135,7 @@ services:
       dockerfile: docker/Dockerfile-kafka-connect
       args:
         CONFLUENT_VERSION: ${CONFLUENT_VERSION}
+        KAFKA_CONNECT_SPLUNK: ${KAFKA_CONNECT_SPLUNK}
     restart: unless-stopped
     container_name: connect
     depends_on:
