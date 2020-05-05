@@ -1,22 +1,26 @@
 version: '2.2'
 services:
+  ############################################## Logstash ##############################################
   logstash:
     container_name: 'logstash'
     restart: unless-stopped
     build: 
       context: .
       dockerfile: docker/Dockerfile-logstash
+      args:
+        LOGSTASH_VERSION: ${LOGSTASH_VERSION}
     ports: 
       - 5044:5044/tcp
-      - 1514:1514/udp
-      - 1515:1515/tcp
     networks: 
       - default
       - logstash-backend
-      - splunk-prod_kafka-backend
+      - splunk-backend
+    depends_on: 
+      - splunk
+      - broker
     cpus: 4
     mem_limit: 2G
-
+    
 networks: 
   logstash-backend:
   splunk-prod_kafka-backend:

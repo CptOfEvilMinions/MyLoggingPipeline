@@ -1,4 +1,7 @@
+# Splunk docs
 
+## Build logstash
+1. `docker-compose -f docker-compose.yml build splunk`
 
 ## References
 * [Splunk NGINX](https://dev.splunk.com/enterprise/docs/dataapps/httpeventcollector/confignginxloadhttp)

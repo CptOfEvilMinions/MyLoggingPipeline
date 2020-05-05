@@ -1,33 +1,21 @@
 # Python connector script
 
-1. `pip3 install -U requests`
-1. 
-```
-cat > ~/.splunkrc << 'EOF'
-# Splunk host (default: localhost)
-host=<Splnk IP addr/hostname>
-# Splunk admin port (default: 8089)
-port=8089
-# Splunk username
-username=admin
-# Splunk password
-password=<password>
-# Access scheme (default: https)
-scheme=http
-# Your version of Splunk (default: 5.0)
-version=8.0.3
-```
+1. `venv -p python3 venv`
+1. `source venv/bin/activate`
+1. `pip3 install -r requirements.txt`
+1. `mv conf/python/config.yml.example conf/python/config.yml`
+1. open `conf/python/config.yml`
+  1. Splunk
+    1. Set `external_url` to a URL that can be used to reach Splunk externally
+    1. Set `username` to an admin user for Splunk
+    1. Set `password` to a password for an admin user
+    1. Set `index_name` to the name, you want the index to have in Splunk
+  1. Kafka
+    1. Set `connect_extenral_url` to a URL that can be used to reach Kafka Connect externally
+    1. Set `topics` to a list of Kafka topics you want to be consumed and ingested into the index specified above
 
-
-1. 
-```
-python3 splunk-kafka-connector.py \
---splunk_connector_name splunk-zeek \
---splunk_hec_uri http://splunk:8088 \
---splunk_hec_token <token> \
---kafka_connect_url http://10.140.100.221:8083/connectors \
---kafak_topics_list zeek_conn
-```
+## Entire setup
+1. `python3 splunk-kafka-connector.py --all`
 
 ## References
 * [How to Build Command Line Interfaces in Python With argparse](https://realpython.com/command-line-interfaces-python-argparse/)

@@ -7,6 +7,9 @@ Logstash is the frontend to the logging for ingest logs from client. Logstash wa
 ## Generate DHparam
 1. `openssl dhparam -out conf/nginx/ssl/dhparam.pem 2048`
 
+## Build logstash
+1. `docker-compose -f docker-compose.yml build nginx`
+
 ## References
 * [plentz/nginx.conf](https://gist.github.com/plentz/6737338)
 * [nginx as reverse proxy with upstream SSL](https://serverfault.com/questions/341023/nginx-as-reverse-proxy-with-upstream-ssl)
