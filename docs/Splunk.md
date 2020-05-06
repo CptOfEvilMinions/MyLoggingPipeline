@@ -1,8 +1,10 @@
 # Splunk docs
 
 ## Build logstash
-1. `docker run --rm -it -e SPLUNK_PASSWORD=changeme splunk/splunk:8.0.3-debian create-defaults > conf/splunk/default.yml`
 1. `docker-compose -f docker-compose.yml build splunk`
+
+## Helpful commands
+1. `docker run --rm -it -e SPLUNK_PASSWORD=changeme splunk/splunk:8.0.3-debian create-defaults > conf/splunk/default.yml`
 
 ## References
 * [Splunk NGINX](https://dev.splunk.com/enterprise/docs/dataapps/httpeventcollector/confignginxloadhttp)

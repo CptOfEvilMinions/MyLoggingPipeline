@@ -281,13 +281,12 @@ services:
       - splunk-backend
     environment:
       - SPLUNK_START_ARGS="--accept-license"
-      #- SPLUNK_PASSWORD=Changeme123!
+      - SPLUNK_PASSWORD=Changeme123!
     volumes: 
       - splunk-var:/opt/splunk/var
       - splunk-etc:/opt/splunk/etc
-      - splunk-tmp:/tmp/defaults
-    # cpus: 8
-    # mem_limit: 12G
+    cpus: 8
+    mem_limit: 12G
 
 volumes: 
   kafka-data:

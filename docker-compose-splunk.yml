@@ -2,7 +2,6 @@ version: '2.2'
 services:
   ############################################## Splunk ##############################################
   splunk:
-    #image: splunk/splunk:latest
     build: 
      context: .
      dockerfile: docker/Dockerfile-splunk
@@ -17,12 +16,10 @@ services:
       - 8000:8000
     environment:
       - SPLUNK_START_ARGS="--accept-license"
-      - SPLUNK_PASSWORD
-      #- SPLUNK_PASSWORD=Changeme123!
+      - SPLUNK_PASSWORD=Changeme123!
     volumes: 
       - splunk-var:/opt/splunk/var
       - splunk-etc:/opt/splunk/etc
-      - splunk-tmp:/tmp/defaults
     cpus: 8
     mem_limit: 12G
 
