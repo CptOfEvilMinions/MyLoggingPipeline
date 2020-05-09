@@ -5,7 +5,7 @@ Logstash is the frontend to the logging for ingest logs from client. Logstash wa
 1. `openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout Docker/logstash/certs/logstash.key -out Docker/logstash/certs/logstash.crt`
 
 ## Build logstash
-1. `docker-compose -f docker-compose.yml build logstash`
+1. `docker-compose build logstash`
 
 ## References
 * [Configuration Management Settings in Logstash](https://www.elastic.co/guide/en/logstash/current/configuring-centralized-pipelines.html#configuration-management-settings)

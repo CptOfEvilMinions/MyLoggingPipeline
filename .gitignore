@@ -3,3 +3,4 @@ conf/logstash/ssl/*
 venv/
 conf/python/config.yml
 conf/splunk/default.yml
+files/

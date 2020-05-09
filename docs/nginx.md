@@ -8,7 +8,7 @@ Logstash is the frontend to the logging for ingest logs from client. Logstash wa
 1. `openssl dhparam -out conf/nginx/ssl/dhparam.pem 2048`
 
 ## Build logstash
-1. `docker-compose -f docker-compose.yml build nginx`
+1. `docker-compose build nginx`
 
 ## References
 * [plentz/nginx.conf](https://gist.github.com/plentz/6737338)

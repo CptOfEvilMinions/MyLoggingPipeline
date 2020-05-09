@@ -1,6 +1,8 @@
 ARG NGINX_VERSION
 FROM nginx:${NGINX_VERSION}
 
+ARG SPLUNK_HOST
+
 # Copy SSL
 RUN mkdir /etc/nginx/ssl
 COPY conf/nginx/ssl/nginx.key /etc/nginx/ssl/nginx.key

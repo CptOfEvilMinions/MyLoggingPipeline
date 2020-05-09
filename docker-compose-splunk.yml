@@ -3,16 +3,16 @@ services:
   ############################################## Splunk ##############################################
   splunk:
     build: 
-     context: .
-     dockerfile: docker/Dockerfile-splunk
-     args:
-       SPLUNK_VERSION: ${SPLUNK_VERSION}
+      context: .
+      dockerfile: docker/Dockerfile-splunk
+      args:
+        SPLUNK_VERSION: ${SPLUNK_VERSION}
     restart: unless-stopped
     container_name: splunk
     networks:
       - default
-      - splunk-backend
-    ports:
+      - kafka-backend
+    ports: 
       - 8000:8000
     environment:
       - SPLUNK_START_ARGS="--accept-license"
@@ -23,11 +23,11 @@ services:
     cpus: 8
     mem_limit: 12G
 
-volumes: 
+volumes:
   splunk-var:
   splunk-etc:
-  splunk-tmp:
 
 networks: 
-  splunk-backend:
+  kafka-backend:
+    external: true
 

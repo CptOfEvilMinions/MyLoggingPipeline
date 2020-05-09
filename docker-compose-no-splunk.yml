@@ -10,19 +10,17 @@ services:
       args: 
         NGINX_VERSION: ${NGINX_VERSION}
     ports: 
-      - 80:80       # Splunk
-      - 443:443     # Splunk
-      - 8089:8089   # Splunk API
       - 8083:8083   # connect
       - 9021:9021   # control-center
-      - 8082:8082  # rest-proxy
-      - 8088:8088  # ksqldb-server
+      - 8082:8082   # rest-proxy
+      - 8088:8088   # ksqldb-server
     networks: 
+      - splunk-bridge-net
       - default
-      - splunk-backend
       - kafka-backend
+    extra_hosts:
+      - splunk:192.168.34.1
     depends_on: 
-      - splunk
       - connect
       - control-center
       - rest-proxy
@@ -45,7 +43,6 @@ services:
       - default
       - logstash-backend
     depends_on: 
-      - splunk
       - broker
     cpus: 4
     mem_limit: 2G
@@ -55,8 +52,6 @@ services:
     image: confluentinc/cp-zookeeper:${CONFLUENT_VERSION}
     restart: unless-stopped
     container_name: zookeeper
-    depends_on: 
-      - splunk
     networks: 
       - kafka-backend
     environment:
@@ -75,11 +70,9 @@ services:
     container_name: broker
     depends_on:
       - zookeeper
-      - splunk
     networks: 
       - default
       - kafka-backend
-      - splunk-backend
     volumes: 
       - kafka-data:/var/lib/kafka/data
       - kafka-logs:/var/lib/kafka/logs
@@ -138,10 +131,11 @@ services:
       - zookeeper
       - broker
       - schema-registry
-      - splunk
     networks: 
+      - splunk-bridge-net
       - kafka-backend
-      - splunk-backend
+    extra_hosts:
+      - splunk:192.168.34.1
     environment:
       CONNECT_BOOTSTRAP_SERVERS: 'broker:29092'
       CONNECT_REST_ADVERTISED_HOST_NAME: connect
@@ -179,7 +173,6 @@ services:
       - ksqldb-server
     networks: 
       - kafka-backend
-      - splunk-backend
     environment:
       CONTROL_CENTER_BOOTSTRAP_SERVERS: 'broker:29092'
       CONTROL_CENTER_ZOOKEEPER_CONNECT: 'zookeeper:2181'
@@ -255,35 +248,20 @@ services:
     cpus: 2
     mem_limit: 300M 
 
-  ############################################## Splunk ##############################################
-  splunk:
-    build: 
-      context: .
-      dockerfile: docker/Dockerfile-splunk
-      args:
-        SPLUNK_VERSION: ${SPLUNK_VERSION}
-    restart: unless-stopped
-    container_name: splunk
-    networks:
-      - splunk-backend
-    environment:
-      - SPLUNK_START_ARGS="--accept-license"
-      - SPLUNK_PASSWORD=Changeme123!
-    volumes: 
-      - splunk-var:/opt/splunk/var
-      - splunk-etc:/opt/splunk/etc
-    cpus: 8
-    mem_limit: 12G
-
 volumes: 
   kafka-data:
   kafka-logs:
   zk-data:
   zk-logs:
-  splunk-var:
-  splunk-etc:
 
 networks: 
   logstash-backend:
   kafka-backend:
-  splunk-backend:
+  # Connector between Docker and host
+  splunk-bridge-net:
+    driver: bridge 
+    ipam:
+      driver: default
+      config:
+        - subnet: 192.168.34.0/24
+          gateway: 192.168.34.1

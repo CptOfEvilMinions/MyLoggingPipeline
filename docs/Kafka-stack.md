@@ -21,7 +21,7 @@ curl http[s]://<Kafka Connect IP addr/FQDN>:8083/connectors -X POST -H "Content-
 ```
 
 ## Build logstash
-1. `docker-compose -f docker-compose-logstash.yml build connect`
+1. `docker-compose build connect`
 
 ## References
 * [cjmatta/README.md - kafka stack](https://gist.github.com/cjmatta/a716fa26bb1ed22dd7f8d66f2b87d1cd)
@@ -31,3 +31,5 @@ curl http[s]://<Kafka Connect IP addr/FQDN>:8083/connectors -X POST -H "Content-
 * [Difference between 'image' and 'build' within docker compose](https://stackoverflow.com/questions/34316047/difference-between-image-and-build-within-docker-compose)
 * [Docker ARG, ENV and .env - a Complete Guide](https://vsupalov.com/docker-arg-env-variable-guide/#the-dot-env-file-env)
 * [Kafka Broker doesn't find cluster id and creates new one after docker restart](https://stackoverflow.com/questions/59592518/kafka-broker-doesnt-find-cluster-id-and-creates-new-one-after-docker-restart)
+* [doccker-compse - EXTRA_HOSTS](https://docs.docker.com/compose/compose-file/compose-file-v2/)
+* [Support host.docker.internal in dockerd on Linux #40007](https://github.com/moby/moby/pull/40007)
