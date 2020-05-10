@@ -2,7 +2,7 @@
 
 Over the years I have built several logging pipelines within my homelab and each used different technologies and methodologies but now I have finally built a pipeline that suites my needs. When I tell people about my pipeline they usually ask if I have a blog post on it because they want to know more or replicate it. This blog post is my attempt to share my logging pipeline as a framework for newcomers. The hope is that the explanation of the architecture, design decisions, working infrastructure-as-code, and the knowledge I accumulated over the years will be beneficial to the community.
 
-* [HoldMyBeerSecurity Blog post - My logging pipeline: Splunk, Logstash, and Kafka](https://holdmybeersecurity.com/2020/05/02/my-logging-pipeline-kolide-splunk-zeek-rsyslog-and-kafka)
+* [HoldMyBeerSecurity Blog post - My logging pipeline: Splunk, Logstash, and Kafka](https://holdmybeersecurity.com/2020/05/02/my-logging-pipeline-kolide-splunk-zeek-rsyslog-and-kafka/)
 
 ## Network diagram
 <p align="center">
