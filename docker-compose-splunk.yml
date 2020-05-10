@@ -1,5 +1,31 @@
 version: '2.2'
 services:
+  ############################################## NGINX ##############################################
+  nginx:
+    container_name: 'nginx'
+    restart: unless-stopped
+    build: 
+      context: .
+      dockerfile: docker/Dockerfile-nginx
+      args: 
+        NGINX_VERSION: ${NGINX_VERSION}
+    ports: 
+      - 80:80       # Splunk
+      - 443:443     # Splunk
+      - 8089:8089   # Splunk API
+    networks: 
+      - default
+      - splunk-backend
+      - kafka-backend
+    depends_on: 
+      - splunk
+      - connect
+      - control-center
+      - rest-proxy
+      - ksqldb-server
+    cpus: 1
+    mem_limit: 100M
+
   ############################################## Splunk ##############################################
   splunk:
     build: 
@@ -10,10 +36,7 @@ services:
     restart: unless-stopped
     container_name: splunk
     networks:
-      - default
-      - kafka-backend
-    ports: 
-      - 8000:8000
+      - splunk-backend
     environment:
       - SPLUNK_START_ARGS="--accept-license"
       - SPLUNK_PASSWORD=Changeme123!

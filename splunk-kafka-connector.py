@@ -50,8 +50,9 @@ class App:
         headers = {
             "Content-Type": "application/json"
         }
+        print (self.kafka_connect_url)
         r = requests.get(self.kafka_connect_url, headers=headers, verify=self.verify)
-
+        
         if r.status_code == 200:
             print (r.json())
         else:
@@ -198,8 +199,8 @@ if __name__ == "__main__":
     # Argparser
     my_parser = argparse.ArgumentParser()
     my_parser.add_argument('--create_splunk_index', action='store', type=str, help='Create splunk index')
-    my_parser.add_argument('--create_splunk_hec_token', action='store', type=str, help='Create splunk index')
-    my_parser.add_argument('--create_kafka_splunk_connector', action='store', type=str, help='Create splunk index')
+    my_parser.add_argument('--create_splunk_hec_token', action='store_true', help='Create splunk HEC input')
+    my_parser.add_argument('--create_kafka_splunk_connector', action='store_true', help='Create splunk index')
     my_parser.add_argument('--delete_kafka_splunk_connector', action='store', type=str, help='Create splunk index')
     my_parser.add_argument('--list_kafka_splunk_connectors', action='store_true', help='List Kafka Connectors')
     my_parser.add_argument('--all', action='store_true', help='Create Splunk index, Create Splunk HEC token, Create Kafka Splunk connector')

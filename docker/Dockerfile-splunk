@@ -2,4 +2,4 @@ ARG SPLUNK_VERSION
 FROM splunk/splunk:${SPLUNK_VERSION}
 
 # Config HEC input
-COPY conf/splunk/inputs.conf /opt/splunk/etc/apps/splunk_httpinput/default/inputs.conf
+COPY conf/splunk/inputs.conf /opt/splunk/etc/apps/splunk_httpinput/local/inputs.conf

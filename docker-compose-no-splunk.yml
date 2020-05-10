@@ -15,7 +15,6 @@ services:
       - 8082:8082   # rest-proxy
       - 8088:8088   # ksqldb-server
     networks: 
-      - splunk-bridge-net
       - default
       - kafka-backend
     extra_hosts:
@@ -132,10 +131,10 @@ services:
       - broker
       - schema-registry
     networks: 
-      - splunk-bridge-net
+      - default
       - kafka-backend
     extra_hosts:
-      - splunk:192.168.34.1
+      - splunk:172.17.0.1
     environment:
       CONNECT_BOOTSTRAP_SERVERS: 'broker:29092'
       CONNECT_REST_ADVERTISED_HOST_NAME: connect
@@ -257,11 +256,3 @@ volumes:
 networks: 
   logstash-backend:
   kafka-backend:
-  # Connector between Docker and host
-  splunk-bridge-net:
-    driver: bridge 
-    ipam:
-      driver: default
-      config:
-        - subnet: 192.168.34.0/24
-          gateway: 192.168.34.1
